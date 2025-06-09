@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Himmel AR Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ffffff;
+      text-align: center;
+    }
+    button {
+      font-size: 1.2rem;
+      padding: 1em 2em;
+      border: none;
+      border-radius: 8px;
+      background-color: #007aff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="ar-container">
+    <h1>Himmel ARを体験する</h1>
+    <button id="launch-ar">ARで表示</button>
+  </div>
+
+  <script>
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const button = document.getElementById("launch-ar");
+
+    button.addEventListener("click", () => {
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // iOS → Quick Look (.usdz)
+        const a = document.createElement('a');
+        a.setAttribute('rel', 'ar');
+        a.setAttribute('href', 'model.usdz');
+        a.click();
+      } else if (/android/i.test(userAgent)) {
+        // Android → Scene Viewer (.glb)
+        const sceneViewerUrl =
+          'intent://model-viewer.glitch.me/scene-viewer?file=model.glb#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://yugahashi.github.io/Himmel/;end;';
+        window.location.href = sceneViewerUrl;
+      } else {
+        alert("ARはこのデバイスでサポートされていないか、未確認です。");
+      }
+    });
+  </script>
+
+</body>
+</html>
