@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3Dモデル表示 - Himmel</title>
+  <meta charset="UTF-8" />
+  <title>WebAR 3D Model</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #ffffff;
+    }
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+    }
+  </style>
 </head>
-<body style="text-align: center; padding-top: 50px; font-family: sans-serif;">
-
-  <h1>Himmel 3Dモデルを見る</h1>
-  <p>iPhoneやiPadのSafariで以下をタップしてください:</p>
-
-  <a href="https://YOUR_GITHUB_USER.github.io/YOUR_REPO_NAME/Himmel_0529052509_texture.usdz" rel="ar" style="display: inline-block;">
-    <img src="https://developer.apple.com/augmented-reality/images/usdz/usdz_file_thumb_2x.png" width="200" alt="3Dモデルを見る">
-  </a>
-
+<body>
+  <model-viewer
+    src="model.glb"
+    ios-src="https://yuga0307.github.io/Himmel00/model.usdz"
+    alt="3D Character"
+    auto-rotate
+    camera-controls
+    ar
+    ar-modes="scene-viewer webxr quick-look"
+    environment-image="neutral"
+    shadow-intensity="1"
+  >
+  </model-viewer>
 </body>
 </html>
