@@ -1,73 +1,58 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>南平台ごりょんさん AR体験</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <meta charset="UTF-8">
+  <title>ARでHimmelを見る</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      margin: 0;
-      background: #f7f5f2;
-      font-family: 'Helvetica Neue', sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+      background: #f8f8f8;
     }
-
-    h1 {
-      font-size: 20px;
-      color: #2c3e50;
-      margin-bottom: 12px;
-    }
-
-    model-viewer {
-      width: 100%;
-      max-width: 420px;
-      height: 70vh;
-      background-color: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    button[slot="ar-button"] {
-      margin-top: 16px;
-      padding: 14px 28px;
-      font-size: 16px;
-      font-weight: bold;
+    .ar-button {
+      padding: 14px 24px;
+      font-size: 18px;
       background-color: #2c3e50;
-      color: #fff;
+      color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      transition: background 0.3s ease;
-    }
-
-    button[slot="ar-button"]:hover {
-      background-color: #1a242f;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
   </style>
 </head>
 <body>
 
-  <h1>📱 ごりょんさんのAR体験メニュー</h1>
+<a id="ar-launcher" class="ar-button">ARでHimmelを見る</a>
 
-  <model-viewer
-    src="model.glb"
-    ios-src="model.usdz"
-    alt="南平台ごりょんさんのお料理3Dモデル"
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    auto-rotate
-    camera-controls
-    environment-image="https://modelviewer.dev/shared-assets/environments/neutral.hdr"
-    shadow-intensity="1">
-    <button slot="ar-button">ARで表示する</button>
-  </model-viewer>
+<script>
+  const userAgent = window.navigator.userAgent.toLowerCase();
+  const isIOS = /iphone|ipad|ipod/.test(userAgent);
+  const isAndroid = /android/.test(userAgent);
+
+  const usdzUrl = 'https://yugahashi.github.io/Himmel/model.usdz';
+  const glbUrl = 'https://yugahashi.github.io/Himmel/model.glb';
+
+  const button = document.getElementById('ar-launcher');
+
+  if (isIOS) {
+    button.setAttribute('rel', 'ar');
+    button.setAttribute('href', usdzUrl);
+  } else if (isAndroid) {
+    // Android Scene Viewer起動用 intent
+    button.setAttribute('href', `intent://arvr.google.com/scene-viewer/1.0?file=${glbUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;S.browser_fallback_url=${glbUrl};end;`);
+  } else {
+    button.textContent = "ARはスマホでご利用ください";
+    button.style.backgroundColor = '#ccc';
+    button.style.cursor = 'default';
+  }
+</script>
 
 </body>
 </html>
