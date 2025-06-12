@@ -1,57 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>3DモデルARビューア</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      background: #f9f9f9;
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    model-viewer {
-      width: 100%;
-      height: 100%;
-      max-width: 100vw;
-      max-height: 100vh;
-      background-color: #ffffff;
-    }
-    button[slot="ar-button"] {
-      position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 24px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>AR表示</title>
 </head>
 <body>
 
-  <model-viewer
-    src="model.glb"
-    ios-src="model.usdz"
-    alt="3Dモデル"
-    ar
-    ar-modes="scene-viewer quick-look webxr"
-    auto-rotate
-    camera-controls
-    environment-image="https://modelviewer.dev/shared-assets/environments/neutral.hdr"
-    shadow-intensity="1">
-
-    <button slot="ar-button">📱 ARで表示する</button>
-
-  </model-viewer>
+  <!-- Quick Look 起動用リンク -->
+  <a href="model.usdz" rel="ar">
+    <img src="preview.jpg" alt="ARで表示する" style="width: 200px;">
+  </a>
 
 </body>
 </html>
