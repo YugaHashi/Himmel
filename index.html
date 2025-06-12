@@ -3,13 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <title>AR表示</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .ar-button {
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    model-viewer {
+      width: 100%;
+      max-width: 400px;
+      height: 70vh;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Quick Look 起動用リンク -->
-  <a href="model.usdz" rel="ar">
-    <img src="preview.jpg" alt="ARで表示する" style="width: 200px;">
-  </a>
+<div id="viewer"></div>
+
+<script>
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+  const viewer = document.getElementById("viewer");
+
+  if (isIOS) {
+    // iPhone Safari → Quick Look表示（usdz）
+    viewer.innerHTML = `
+      <a href="model.usdz" rel="ar" class="ar-button">
+        📱 iPhoneでAR表示する
+      </a>
+    `;
+  } else {
+    // Androidなど → model-viewerでglb表示
+    viewer.innerHTML = `
+      <model-viewer 
+        src="model.glb"
+        ar
+        ar-modes="scene-viewer webxr"
+        auto-rotate
+        camera-controls
+        shadow-intensity="1"
+        environment-image="https://modelviewer.dev/shared-assets/environments/neutral.hdr">
+        <button slot="ar-button" class="ar-button">📱 ARで表示する</button>
+      </model-viewer>
+    `;
+  }
+</script>
 
 </body>
 </html>
